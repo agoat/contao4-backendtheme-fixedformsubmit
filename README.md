@@ -1,6 +1,6 @@
 # contao4-backendtheme-fixedformsubmit
 
-Add this to the be_main.html template
+Change the be_main.html template to add a fixed submit footer 
 
 
 
