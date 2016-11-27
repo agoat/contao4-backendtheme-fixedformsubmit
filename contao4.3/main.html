@@ -17,6 +17,30 @@
   <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/basic.css">
   <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/main.css">
   <?= $this->stylesheets ?>
+ <style>
+    .fixed-submit #header {
+    	z-index: 20;
+    }
+    .fixed-submit #main {
+    	will-change: initial;
+    }
+  	.fixed-submit .tl_formbody_submit {
+  		position: fixed;
+  		bottom: 0;
+  		width: 78%;
+  		max-width: 890px;
+  		z-index: 10;
+  	}
+  	.fixed-submit .tl_formbody_edit {
+  		padding-bottom: 50px;
+   	}
+   	@media (max-width: 991px) {
+   		.fixed-submit .tl_formbody_submit {
+   			width: calc(100% - 20px);
+   			max-width: initial;
+   		}
+   	}
+  </style>
 
   <script><?= $this->getLocaleString() ?></script>
   <script src="<?= TL_ASSETS_URL ?>assets/mootools/js/mootools.min.js"></script>
@@ -29,6 +53,30 @@
   <script src="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/hover.js"></script>
   <script><?= $this->getDateString() ?></script>
   <?= $this->javascripts ?>
+  <script>
+  window.addEvent('domready',function() {
+  	
+   	
+  	window.addEventListener('scroll', function() 
+  	{
+  		if (window.getScroll().y < (window.getScrollSize().y - window.getSize().y - 40))
+  		{
+  			$$("body").addClass("fixed-submit");
+  		}
+  		else
+  		{
+  			$$("body").removeClass("fixed-submit");
+  		}
+  	});
+ 
+ 	window.setTimeout(function(){
+	  	if (window.getScrollSize().y > window.getSize().y - 40)
+	  	{
+	  		$$("body").addClass("fixed-submit")
+	  	}
+  	}, 200);
+  }); 
+  </script>
 
 </head>
 <body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?>">
