@@ -17,14 +17,14 @@
   <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/basic.css">
   <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/main.css">
   <?= $this->stylesheets ?>
- <style>
-    .fixed-submit #header {
-    	z-index: 20;
-    }
-    .fixed-submit #main {
-    	will-change: initial;
-    }
-  	.fixed-submit .tl_formbody_submit {
+  <style>
+	#header {
+		z-index: 20;
+	}
+	#main {
+		will-change: initial;
+	}
+	.fixed-submit .tl_formbody_submit {
   		position: fixed;
   		bottom: 0;
   		width: 78%;
@@ -55,8 +55,6 @@
   <?= $this->javascripts ?>
   <script>
   window.addEvent('domready',function() {
-  	
-   	
   	window.addEventListener('scroll', function() 
   	{
   		if (window.getScroll().y < (window.getScrollSize().y - window.getSize().y - 40))
