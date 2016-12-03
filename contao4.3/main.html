@@ -57,7 +57,18 @@
   window.addEvent('domready',function() {
   	window.addEventListener('scroll', function() 
   	{
-  		if (window.getScroll().y < (window.getScrollSize().y - window.getSize().y - 40))
+ 	  	if ($$("#main")[0].getSize().y + $$("#main")[0].getPosition().y > window.getScroll().y + window.getSize().y)
+  		{
+  			$$("body").addClass("fixed-submit");
+  		}
+  		else
+  		{
+  			$$("body").removeClass("fixed-submit");
+  		}
+  	});
+  	window.addEventListener('resize', function() 
+  	{
+ 	  	if ($$("#main")[0].getSize().y + $$("#main")[0].getPosition().y > window.getScroll().y + window.getSize().y)
   		{
   			$$("body").addClass("fixed-submit");
   		}
@@ -68,7 +79,7 @@
   	});
  
  	window.setTimeout(function(){
-	  	if (window.getScrollSize().y > window.getSize().y - 40)
+ 	  	if ($$("#main")[0].getSize().y + $$("#main")[0].getPosition().y > window.getScroll().y + window.getSize().y)
 	  	{
 	  		$$("body").addClass("fixed-submit")
 	  	}
