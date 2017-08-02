@@ -102,7 +102,7 @@
     <div id="main">
       <h1 class="main_headline"><?= $this->headline ?></h1>
       <?php if ($this->pickerMenu): ?>
-        <div id="manager">
+        <div id="picker-menu">
           <?= $this->pickerMenu ?>
         </div>
       <?php endif; ?>
@@ -121,12 +121,14 @@
         parent.document.getElements('.simple-modal-footer a').addClass('btn-disabled');
       }
     </script>
-  <?php elseif ($this->pageOffset): ?>
-    <script>Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
-    <?php System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
   <?php endif; ?>
 
   <?= $this->mootools ?>
+
+  <?php if ($this->pageOffset): ?>
+    <script>Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 40 ?> : <?= $this->pageOffset ?>)</script>
+    <?php System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
+  <?php endif; ?>
 
 </body>
 </html>
