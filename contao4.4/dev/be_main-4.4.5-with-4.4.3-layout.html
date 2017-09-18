@@ -18,50 +18,48 @@
   <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/main.css">
   <?= $this->stylesheets ?>
   <style>
-	#header .inner {
-		max-width: inherit;
-	}
-	#tmenu h2 {
-		padding-right: 22px;
-		margin-right: 4px;
-	}
-	#container {
-		max-width: inherit;
-	}
-	
-	#main {
-		will-change: initial;
-		border: none;
-	}
-	#main .content {
-		margin: 0;
-		border: none;
-	}
-	.fx .tl_formbody_submit {
-  		position: fixed;
-  		bottom: 0;
-  		width: calc(100% - 225px);
-  		z-index: 10;
-  	}
-  	.fx.lw .tl_formbody_submit {
-  		max-width: 915px;
-  		margin-left: auto;
-		margin-right: auto;
-  	}
-  	.fx .tl_formbody_edit {
-  		padding-bottom: 50px;
-   	}
-   	@media (max-width: 991px) {
-		.fx #container {
-			padding: 48px .1px 0;
-		}
-   		.fx .tl_formbody_submit {
-   			width: 100%;
-   			max-width: 100% !important;
-   		}
-   	}
+    #header .inner {
+      max-width: inherit;
+    }
+    #tmenu h2 {
+      padding-right: 22px;
+      margin-right: 4px;
+    }
+    #container {
+      max-width: inherit;
+    }
+    #main {
+      will-change: initial;
+      border: none;
+    }
+    #main .content {
+      margin: 0;
+      border: none;
+    }
+    .fx .tl_formbody_submit {
+      position: fixed;
+      bottom: 0;
+      width: calc(100% - 225px);
+      z-index: 10;
+    }
+    .fx.lw .tl_formbody_submit {
+      max-width: 915px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .fx .tl_formbody_edit {
+      padding-bottom: 50px;
+    }
+    @media (max-width: 991px) {
+      .fx #container {
+        padding: 48px .1px 0;
+      }
+      .fx .tl_formbody_submit {
+        width: 100%;
+        max-width: 100% !important;
+        }
+    }
   </style>
-  
   
   <script><?= $this->getLocaleString() ?></script>
   <script src="<?= TL_ASSETS_URL ?>assets/mootools/js/mootools.min.js"></script>
@@ -104,6 +102,7 @@
       }, 500);
     })
   </script>
+
 </head>
 <body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?>">
 
