@@ -18,28 +18,50 @@
   <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/main.css">
   <?= $this->stylesheets ?>
   <style>
-	#main {
-		will-change: initial;
-	}
-	.tl_formbody_submit {
-  		position: fixed;
-  		bottom: 0;
-  		width: calc(100% - 240px);
-  		z-index: 10;
-  	}
-  	.tl_formbody_edit {
-  		padding-bottom: 50px;
-   	}
-   	@media (max-width: 991px) {
-		#container {
-			padding: 48px .1px 0;
-		}
-   		.tl_formbody_submit {
-   			width: 100% !important;
-   		}
-   	}
+    #header .inner {
+      max-width: inherit;
+    }
+    #tmenu h2 {
+      padding-right: 22px;
+      margin-right: 4px;
+    }
+    #container {
+      max-width: inherit;
+    }
+    #main {
+      will-change: initial;
+      border: none;
+    }
+    #main .content {
+      margin: 0;
+      border-right: none;
+      border-left: none;
+    }
+    .fx .tl_formbody_submit {
+      position: fixed;
+      bottom: 0;
+      width: calc(100% - 225px);
+      z-index: 10;
+    }
+    .fx.lw .tl_formbody_submit {
+      max-width: 915px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .fx .tl_formbody_edit {
+      padding-bottom: 50px;
+    }
+    @media (max-width: 991px) {
+      .fx #container {
+        padding: 48px .1px 0;
+      }
+      .fx .tl_formbody_submit {
+        width: 100%;
+        max-width: 100% !important;
+        }
+    }
   </style>
-
+  
   <script><?= $this->getLocaleString() ?></script>
   <script src="<?= TL_ASSETS_URL ?>assets/mootools/js/mootools.min.js"></script>
   <script src="<?= TL_ASSETS_URL ?>assets/colorpicker/js/mooRainbow.min.js"></script>
@@ -51,6 +73,23 @@
   <script src="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/hover.js"></script>
   <script><?= $this->getDateString() ?></script>
   <?= $this->javascripts ?>
+  <script>
+    var repositionSubmitBar = function() {
+      if ($$('.content')[0].getPosition().y + $$('.content')[0].getSize().y  > window.getSize().y)
+      {
+        $$('body').addClass("fx");
+      }
+      else
+      {
+        $$('body').removeClass("fx");
+      }
+    };
+    window.addEvent('domready',function() {
+      document.addEventListener('click', repositionSubmitBar);
+      window.addEventListener('resize', repositionSubmitBar);
+      window.setTimeout(repositionSubmitBar, 500);
+    }); 
+  </script>
 
 </head>
 <body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?>">
@@ -60,13 +99,17 @@
       <div class="inner">
         <h1><a href="<?= $this->route('contao_backend') ?>" accesskey="h" id="home" title="<?= $this->home ?>">Contao</a></h1>
         <ul id="tmenu">
-          <?php if ($this->systemMessagesCount > 0): ?>
-            <li><?php if ($this->systemErrorMessagesCount > 0) echo '<sup>' . $this->systemErrorMessagesCount . '</sup>'; ?><a href="<?= $this->route('contao_backend_alerts') ?>" class="icon-alert" title="<?= StringUtil::specialchars($this->systemMessages) ?>" onclick="Backend.openModalIframe({'title':'<?= str_replace("'", "\\'", StringUtil::specialchars($this->systemMessages)) ?>','url':this.href});return false"><?= $this->systemMessages ?></a></li>
-          <?php endif; ?>
-          <li><a href="<?= $this->route('contao_backend', ['do'=>'login', 'ref'=>TL_REFERER_ID]) ?>" class="icon-profile" title="<?= StringUtil::specialchars($this->username) ?>"><?= $this->username ?></a></li>
-          <li><a href="<?= $this->route('contao_backend_preview') . $this->frontendFile ?>" class="icon-preview" title="<?= StringUtil::specialchars($this->preview) ?>" target="_blank" accesskey="f"><?= $this->preview ?></a></li>
-          <li><a href="<?= $this->route('contao_backend_login') ?>" class="icon-logout" title="<?= StringUtil::specialchars($this->logout) ?>" accesskey="q"><?= $this->logout ?></a></li>
-          <li class="burger"><button type="button" title="<?= StringUtil::specialchars($this->burger) ?>" id="burger"><?= Image::getHtml('burger.svg') ?></button></li>
+          <li><a href="<?= $this->route('contao_backend_alerts') ?>" class="icon-alert" title="<?= StringUtil::specialchars($this->systemMessages) ?>" onclick="Backend.openModalIframe({'title':'<?= str_replace("'", "\\'", StringUtil::specialchars($this->systemMessages)) ?>','url':this.href});return false"><?= $this->systemMessages ?><?php if ($this->systemErrorMessagesCount > 0) echo ' <sup>' . $this->systemErrorMessagesCount . '</sup>'; ?></a></li>
+          <li><a href="<?= $this->route('contao_backend_preview') . $this->frontendFile ?>" class="icon-preview" title="<?= $this->previewTitle ?>" target="_blank" accesskey="f"><?= $this->preview ?></a></li>
+          <li class="submenu">
+            <h2><?= $this->username ?></h2>
+            <ul class="level_2">
+              <li class="info"><strong><?= $this->user->name ?></strong> <?= $this->user->email ?></li>
+              <li><a href="<?= $this->route('contao_backend', ['do'=>'login', 'ref'=>$this->ref]) ?>" class="icon-profile"><?= $this->profile ?></a></li>
+              <li><a href="<?= $this->route('contao_backend_login') ?>" class="icon-logout" accesskey="q"><?= $this->logout ?></a></li>
+            </ul>
+          </li>
+          <li class="burger"><button type="button" id="burger"><?= Image::getHtml('burger.svg') ?></button></li>
         </ul>
       </div>
     </div>
@@ -101,24 +144,26 @@
 
     <div id="main">
       <h1 class="main_headline"><?= $this->headline ?></h1>
-      <?php if ($this->pickerMenu): ?>
-        <div id="picker-menu">
-          <?= $this->pickerMenu ?>
-        </div>
-      <?php endif; ?>
-      <?php if ($this->error): ?>
-        <p class="tl_gerror"><?= $this->error ?></p>
-      <?php endif; ?>
-      <?= $this->main ?>
+      <div class="content">
+        <?php if ($this->pickerMenu): ?>
+          <div id="picker-menu">
+            <?= $this->pickerMenu ?>
+          </div>
+        <?php endif; ?>
+        <?php if ($this->error): ?>
+          <p class="tl_gerror"><?= $this->error ?></p>
+        <?php endif; ?>
+        <?= $this->main ?>
+      </div>
     </div>
   </div>
 
   <?php if ($this->isPopup): ?>
     <script>
-      if ($$('.tl_tree_checkbox,.tl_tree_radio').length > 0) {
-        parent.document.getElements('.simple-modal-footer a').removeClass('btn-disabled');
+      if (!document.location.search.test('act=select') && $$('.tl_tree_checkbox,.tl_tree_radio').length > 0) {
+        parent.document.getElements('.simple-modal-footer a.primary').removeClass('btn-disabled');
       } else {
-        parent.document.getElements('.simple-modal-footer a').addClass('btn-disabled');
+        parent.document.getElements('.simple-modal-footer a.primary').addClass('btn-disabled');
       }
     </script>
   <?php endif; ?>
