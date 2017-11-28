@@ -77,7 +77,7 @@
     var repositionSubmitBar = function() {
       if ($$('.content')[0].getPosition().y + $$('.content')[0].getSize().y  > window.getSize().y)
       {
-        $$('body').addClass("fx");
+        $$('body:not(.popup)').addClass("fx");
       }
       else
       {
