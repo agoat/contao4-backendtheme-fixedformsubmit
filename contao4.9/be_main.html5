@@ -1,0 +1,66 @@
+<?php $this->extend('be_main'); ?>
+
+  <?php $this->block('head'); ?>
+    <?php $this->parent(); ?>
+    <style>
+      #header .inner {
+        max-width: inherit;
+      }
+      #tmenu h2 {
+        padding-right: 22px;
+        margin-right: 4px;
+      }
+      #container {
+        max-width: inherit;
+      }
+      #main {
+        will-change: initial;
+        border: none;
+      }
+      #main .content {
+        margin: 0;
+        border-right: none;
+        border-left: none;
+      }
+      .fx .tl_formbody_submit {
+        position: fixed;
+        bottom: 0;
+        width: calc(100% - 225px);
+        z-index: 10;
+      }
+      .fx.lw .tl_formbody_submit {
+        max-width: 915px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .fx .tl_formbody_edit {
+        padding-bottom: 50px;
+      }
+      @media (max-width: 991px) {
+        .fx #container {
+          padding: 48px .1px 0;
+        }
+        .fx .tl_formbody_submit {
+          width: 100%;
+          max-width: 100% !important;
+          }
+      }
+    </style>
+    <script>
+      var repositionSubmitBar = function() {
+        if ($$('.content')[0].getPosition().y + $$('.content')[0].getSize().y  > window.getSize().y)
+        {
+          $$('body:not(.popup)').addClass("fx");
+        }
+        else
+        {
+          $$('body').removeClass("fx");
+        }
+      };
+      window.addEvent('domready',function() {
+        document.addEventListener('click', repositionSubmitBar);
+        window.addEventListener('resize', repositionSubmitBar);
+        window.setTimeout(repositionSubmitBar, 500);
+      }); 
+    </script>
+  <?php $this->endblock(); ?>
